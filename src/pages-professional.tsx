@@ -217,11 +217,11 @@ export function WorkPage() {
                   <SpeakButton text={w.english} />
                 </div>
                 <span>{w.french}</span>
-                <small>
-                  {w.example}
-                  <br />
-                  {w.exampleFr}
-                </small>
+                <div className="work-word-example">
+                  <p>{w.example}</p>
+                  <SpeakButton text={w.example} label={`Écouter l’exemple : ${w.example}`} />
+                  <small>{w.exampleFr}</small>
+                </div>
               </article>
             ))}
           </div>
@@ -237,16 +237,18 @@ export function WorkPage() {
                   <SpeakButton text={r[0]} />
                   <div className="work-answer-options">
                     {r[1].map((x, j) => (
-                      <button
-                        key={x}
-                        className={`${answers[key] === j ? 'picked' : ''} ${
-                          answers[key] !== undefined && j === 0 ? 'right' : ''
-                        }`}
-                        onClick={() => setAnswers({ ...answers, [key]: j })}
-                      >
-                        <span>{String.fromCharCode(65 + j)}</span>
-                        {x}
-                      </button>
+                      <div className="work-answer-audio-row" key={x}>
+                        <button
+                          className={`${answers[key] === j ? 'picked' : ''} ${
+                            answers[key] !== undefined && j === 0 ? 'right' : ''
+                          }`}
+                          onClick={() => setAnswers({ ...answers, [key]: j })}
+                        >
+                          <span>{String.fromCharCode(65 + j)}</span>
+                          {x}
+                        </button>
+                        <SpeakButton text={x} label={`' + 'Écouter : ${x}' + '`} />
+                      </div>
                     ))}
                   </div>
                   {answers[key] !== undefined && (
@@ -262,7 +264,7 @@ export function WorkPage() {
                   <span className="work-question-number">0{i + 1}</span>
                   <div>
                     <h3>{q}</h3>
-                    <p>Une expression naturelle et polie vous aidera Ã  guider la conversation.</p>
+                    <p>Une expression naturelle et polie vous aidera à guider la conversation.</p>
                   </div>
                   <SpeakButton text={q} />
                 </article>
@@ -272,7 +274,7 @@ export function WorkPage() {
         )}
       </div>
       <div className="work-foot-note">
-        <BriefcaseBusiness size={15} /> Fiches professionnelles originales, pour vous entrainer Ã 
+        <BriefcaseBusiness size={15} /> Fiches professionnelles originales, pour vous entrainer à 
         votre façon.
       </div>
     </div>

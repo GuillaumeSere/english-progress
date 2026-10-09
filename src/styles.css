@@ -80,3 +80,7 @@
 .pronunciation{display:inline-flex;align-items:center;margin-top:4px;padding:4px 8px;border:1px solid #cfe2d2;border-radius:999px;background:#eaf4eb;color:#356b49;font-weight:650;letter-spacing:.025em}
 
 .vocab-audio-line{display:flex;align-items:center;justify-content:space-between;gap:8px}.vocab-audio-line>.icon-button{flex:none;width:27px;height:27px;border:1px solid #dce8dc;border-radius:50%;background:#eef5ec;color:#426b49}.vocab-audio-line>.icon-button:hover{background:#dcebd9}
+
+.work-answer-audio-row{display:flex;align-items:stretch;gap:6px}.work-answer-audio-row>button:first-child{flex:1}.work-answer-audio-row>.icon-button{flex:none;width:38px;min-height:42px;border:1px solid #e7e8e1;background:#fff;color:#4e7153}.work-word>small .icon-button{display:inline-grid;vertical-align:middle;margin-left:6px}
+
+.work-word-example{display:grid;grid-template-columns:1fr 30px;align-items:center;gap:3px 8px;margin-top:10px}.work-word-example p{margin:0;color:#405347;font-size:11px;line-height:1.55}.work-word-example>.icon-button{grid-column:2;grid-row:1;width:29px;height:29px;border:1px solid #d5e5d7;border-radius:50%;background:#eaf4eb;color:#356b49}.work-word-example small{grid-column:1/-1;color:#788078;font-size:10px;line-height:1.5}
