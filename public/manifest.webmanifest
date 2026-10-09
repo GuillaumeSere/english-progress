@@ -1,1 +1,10 @@
-﻿{"name":"English Progress","short_name":"English","description":"Apprenez l'anglais un peu chaque jour.","start_url":"/","display":"standalone","background_color":"#f8f7f4","theme_color":"#356b54","icons":[]}
+{
+  "name": "English Progress",
+  "short_name": "English",
+  "description": "Apprenez l’anglais gratuitement avec des cours, du vocabulaire, de l’audio et des exercices.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f7f4",
+  "theme_color": "#356b54",
+  "lang": "fr"
+}
