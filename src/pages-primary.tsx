@@ -126,11 +126,11 @@ function WordCard({ word }: { word: VocabularyWord }) {
       <h3>{word.english}</h3>
       <span className="pronunciation">/{word.pronunciation}/</span>
       <p className="vocab-translation">{word.french}</p>
-      {word.context && <div className="vocab-example"><div><span>IN CONTEXT</span><p>{word.context}</p><small>{word.contextFr}</small><SpeakButton text={word.context} /></div></div>}
+      {word.context && <div className="vocab-example"><div><span>IN CONTEXT</span><p className="vocab-audio-line">{word.context}<SpeakButton text={word.context} label={`Écouter dans le contexte : ${word.context}`} /></p><small>{word.contextFr}</small></div></div>}
       <div className="vocab-example">
         <div>
           <span>EXAMPLE</span>
-          <p>{word.example}</p>
+          <p className="vocab-audio-line">{word.example}<SpeakButton text={word.example} label={`Écouter l’exemple : ${word.example}`} /></p>
           <small>{word.exampleFr}</small>
         </div>
         <button
