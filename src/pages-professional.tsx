@@ -90,7 +90,7 @@ export function PronunciationPage() {
             <Mic2 size={16} />
             <span>
               <strong>La reconnaissance vocale arrivera plus tard.</strong>
-              <small>Pour l'instant, écoutez les sons et répétez Ã  votre rythme.</small>
+              <small>Pour l'instant, écoutez les sons et répétez à votre rythme.</small>
             </span>
           </div>
         </article>

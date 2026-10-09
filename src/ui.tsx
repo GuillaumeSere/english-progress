@@ -199,37 +199,35 @@ export function LevelCard({
   onClick: () => void
 }) {
   return (
-    <article className={`level-card tint-${level.tint}`}>
-      <div className="level-top">
+    <button
+      type="button"
+      className={`level-card level-card-button tint-${level.tint}`}
+      disabled={!level.available}
+      onClick={onClick}
+      aria-label={`Explorer le niveau ${level.name}, ${level.lessons} leçons et ${level.words} mots`}
+    >
+      <span className="level-top">
         <span className="level-token">{level.name}</span>
         <Pill tone={level.available ? 'white' : 'muted'}>
           {level.available ? (level.id === 'a1' ? 'Disponible' : 'À découvrir') : 'Bientôt'}
         </Pill>
-      </div>
-      <h3>{level.title}</h3>
-      <p>
-        {level.available
-          ? `${level.lessons} leçons · ${level.words} mots`
-          : 'Le niveau arrive bientôt'}
-      </p>
-      <div className="level-bottom">
-        <div className="level-meter">
+      </span>
+      <span className="level-card-title">{level.title}</span>
+      <span className="level-card-description">
+        {level.available ? `${level.lessons} leçons · ${level.words} mots` : 'Le niveau arrive bientôt'}
+      </span>
+      <span className="level-bottom">
+        <span className="level-meter">
           <ProgressBar value={progress} />
           <span>{progress}% parcouru</span>
-        </div>
-        <button
-          className="arrow-button"
-          disabled={!level.available}
-          aria-label={`Explorer ${level.name}`}
-          onClick={onClick}
-        >
+        </span>
+        <span className="arrow-button" aria-hidden="true">
           <ChevronRight size={18} />
-        </button>
-      </div>
-    </article>
+        </span>
+      </span>
+    </button>
   )
-}
-export function CourseCard({
+}export function CourseCard({
   lesson,
   index,
   onClick,

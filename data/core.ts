@@ -16,11 +16,13 @@ export type VocabularyWord = {
   example: string
   exampleFr: string
   category: string
-  level: 'A1' | 'A2' | 'B1'
+  level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
+  context?: string
+  contextFr?: string
 }
 export type Lesson = {
   id: string
-  level: 'A1' | 'A2' | 'B1'
+  level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
   number: number
   title: string
   subtitle: string
@@ -49,7 +51,7 @@ export type Dialogue = {
   lines: DialogueLine[]
 }
 export type Progress = {
-  currentLevel?: 'A1' | 'A2' | 'B1'
+  currentLevel?: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
   currentLessonId?: string | null
   lessonSteps?: Record<string, number>
   completedLessons: string[]
@@ -93,13 +95,13 @@ export const LEVELS: LearningLevel[] = [
     id: 'b2',
     name: 'B2',
     title: 'Intermédiaire avancé',
-    lessons: 8,
-    words: 0,
+    lessons: 5,
+    words: 50,
     tint: 'lilac',
-    available: false,
+    available: true,
   },
-  { id: 'c1', name: 'C1', title: 'Avancé', lessons: 8, words: 0, tint: 'butter', available: false },
-  { id: 'c2', name: 'C2', title: 'Maîtrise', lessons: 8, words: 0, tint: 'rose', available: false },
+  { id: 'c1', name: 'C1', title: 'Avancé', lessons: 5, words: 50, tint: 'butter', available: true },
+  { id: 'c2', name: 'C2', title: 'Maîtrise', lessons: 5, words: 50, tint: 'rose', available: true },
 ]
 const raw: [string, string, string, string, string, string][] = [
   [
@@ -640,6 +642,41 @@ export const VOCABULARY: VocabularyWord[] = raw.map(
     level: 'A1',
   }),
 )
+const advancedVocabulary: [string, string, string, string, string, string, VocabularyWord['level']][] = [
+  ['deadline', 'échéance', 'DED-line', 'We need to meet the deadline.', "Nous devons respecter l'échéance.", 'Travail', 'B2'],
+  ['trade-off', 'compromis', 'TRAYD-off', 'Every decision involves a trade-off.', 'Chaque décision implique un compromis.', 'Travail', 'B2'],
+  ['to clarify', 'clarifier', 'KLAR-uh-fy', 'Could you clarify your point?', 'Pourriez-vous clarifier votre propos ?', 'Communication', 'B2'],
+  ['reliable', 'fiable', 'ri-LY-uh-bul', 'The data comes from a reliable source.', "Les données proviennent d'une source fiable.", 'études', 'B2'],
+  ['to overcome', 'surmonter', 'oh-ver-KUM', 'She overcame several challenges.', 'Elle a surmonté plusieurs difficultés.', 'Vie quotidienne', 'B2'],
+  ['to assess', 'évaluer', 'uh-SESS', 'We need to assess the impact.', "Nous devons évaluer l'impact.", 'Travail', 'B2'],
+  ['to point out', 'souligner', 'point OUT', 'He pointed out a key difference.', 'Il a souligné une différence clé.', 'Communication', 'B2'],
+  ['whereas', 'alors que', 'wair-AZ', 'The first option is quick, whereas the second is safer.', 'La première option est rapide, alors que la seconde est plus sure.', 'études', 'B2'],
+  ['to implement', 'mettre en oeuvre', 'IM-pluh-ment', 'The team implemented a new process.', "L'équipe a mis en oeuvre un nouveau processus.", 'Travail', 'B2'],
+  ['to compromise', 'faire un compromis', 'KOM-pruh-myze', 'Both sides agreed to compromise.', 'Les deux parties ont accepté de faire un compromis.', 'Communication', 'B2'],
+  ['insight', 'perspicacité', 'IN-site', 'The report offers valuable insight.', 'Le rapport apporte un éclairage précieux.', 'études', 'C1'],
+  ['subtle', 'subtil', 'SUT-ul', 'There is a subtle difference in tone.', 'Il y a une différence subtile de ton.', 'Communication', 'C1'],
+  ['to articulate', 'exprimer avec précision', 'ar-TIK-yuh-layt', 'She articulated her concerns clearly.', 'Elle a exprimé ses préoccupations avec clarté.', 'Communication', 'C1'],
+  ['to undermine', 'fragiliser', 'un-der-MYNE', 'These delays could undermine trust.', 'Ces retards pourraient fragiliser la confiance.', 'Travail', 'C1'],
+  ['compelling', 'convaincant', 'kum-PEL-ing', 'They presented a compelling argument.', 'Ils ont présenté un argument convaincant.', 'études', 'C1'],
+  ['to scrutinise', 'examiner attentivement', 'SKROO-tuh-nyze', 'The committee scrutinised the proposal.', 'Le comité a examiné la proposition en détail.', 'Travail', 'C1'],
+  ['to convey', 'transmettre', 'kun-VAY', 'A pause can convey uncertainty.', "Une pause peut transmettre de l'incertitude.", 'Communication', 'C1'],
+  ['nuance', 'nuance', 'NYOO-ahns', 'The translation preserves the nuance.', 'La traduction préserve la nuance.', 'études', 'C1'],
+  ['to reconcile', 'concilier', 'REK-un-syle', 'We must reconcile speed with accuracy.', 'Nous devons concilier rapidité et précision.', 'Travail', 'C1'],
+  ['to anticipate', 'anticiper', 'an-TIS-uh-payt', 'Good planning helps anticipate change.', 'Une bonne planification aide à anticiper le changement.', 'Travail', 'C1'],
+  ['eloquent', 'éloquent', 'EL-uh-kwunt', 'Her response was concise and eloquent.', 'Sa réponse était concise et éloquente.', 'Communication', 'C2'],
+  ['to encapsulate', 'résumer parfaitement', 'en-KAP-suh-layt', 'That phrase encapsulates the debate.', 'Cette phrase résume parfaitement le débat.', 'études', 'C2'],
+  ['pervasive', 'omniprésent', 'per-VAY-siv', 'Digital tools are pervasive in modern life.', 'Les outils numériques sont omniprésents dans la vie moderne.', 'Société', 'C2'],
+  ['to refute', 'réfuter', 'ri-FYOOT', 'The evidence refutes that claim.', 'Les preuves réfutent cette affirmation.', 'études', 'C2'],
+  ['inevitable', 'inévitable', 'in-EV-i-tuh-bul', 'Some degree of uncertainty is inevitable.', "Un certain degré d'incertitude est inévitable.", 'Société', 'C2'],
+  ['to epitomise', 'incarner parfaitement', 'i-PIT-uh-myze', 'The novel epitomises the period.', "Le roman incarne parfaitement l'époque.", 'Culture', 'C2'],
+  ['convoluted', 'complexe et alambiqué', 'KON-vuh-loo-tid', 'The instructions were needlessly convoluted.', 'Les consignes étaient inutilement alambiquées.', 'Communication', 'C2'],
+  ['to concede', 'concéder', 'kun-SEED', 'The author concedes one important point.', "L'auteur concède un point important.", 'Débat', 'C2'],
+  ['ambiguous', 'ambigu', 'am-BIG-yoo-us', 'The wording remains ambiguous.', 'La formulation reste ambigue.', 'Communication', 'C2'],
+  ['to substantiate', 'étayer', 'sub-STAN-shee-ayt', 'Further research substantiated the findings.', 'Des recherches supplémentaires ont étayé les résultats.', 'études', 'C2'],
+]
+VOCABULARY.push(...advancedVocabulary.map(([english, french, pronunciation, example, exampleFr, category, level], i) => ({
+  id: `advanced-${i + 1}`, english, french, pronunciation, example, exampleFr, category, level,
+})))
 const specs: [string, string, string, string[]][] = [
   [
     'Greetings',
@@ -880,7 +917,96 @@ export const EXTRA_LEVEL_LESSONS: Lesson[] = [
     words: VOCABULARY.slice(90, 100),
   },
 ]
-export const ALL_LESSONS = [...LESSONS, ...EXTRA_LEVEL_LESSONS]
+const b2VocabularyExtra: [string, string, string, string, string, string, string][] = [
+  ['to streamline', 'simplifier un processus', 'STREEM-lyne', 'We streamlined the approval process.', 'Nous avons simplifié le processus de validation.', 'The new form streamlines registration.', 'Le nouveau formulaire simplifie l’inscription.'],
+  ['to tackle', 's’attaquer à', 'TAK-ul', 'Let’s tackle the most urgent issue first.', 'Attaquons-nous d’abord au problème le plus urgent.', 'The report tackles a difficult question.', 'Le rapport aborde une question difficile.'],
+  ['to factor in', 'prendre en compte', 'FAK-ter in', 'We should factor in travel time.', 'Nous devrions prendre en compte le temps de trajet.', 'The estimate factors in the cost of repairs.', 'L’estimation prend en compte le coût des réparations.'],
+  ['to fall short', 'ne pas être à la hauteur', 'fawl SHORT', 'The first proposal fell short of our needs.', 'La première proposition ne répondait pas à nos besoins.', 'Sales fell short of the target.', 'Les ventes n’ont pas atteint l’objectif.'],
+  ['to weigh up', 'évaluer soigneusement', 'way UP', 'We need to weigh up the risks.', 'Nous devons évaluer soigneusement les risques.', 'She weighed up both offers before deciding.', 'Elle a évalué les deux offres avant de décider.'],
+  ['to come across', 'paraître / donner une impression', 'kum uh-KROSS', 'I don’t want to come across as rude.', 'Je ne veux pas paraître impoli.', 'He came across as confident and well prepared.', 'Il a donné l’impression d’être sûr de lui et bien préparé.'],
+  ['to carry out', 'mener / effectuer', 'KAR-ee out', 'The team carried out a detailed review.', 'L’équipe a mené un examen détaillé.', 'Researchers carried out interviews with residents.', 'Les chercheurs ont mené des entretiens avec les habitants.'],
+  ['to bring up', 'aborder un sujet', 'bring UP', 'She brought up an important concern.', 'Elle a soulevé une préoccupation importante.', 'I’ll bring it up at the next meeting.', 'Je l’aborderai à la prochaine réunion.'],
+  ['to back up', 'étayer / sauvegarder', 'bak UP', 'Can you back up your recommendation?', 'Peux-tu étayer ta recommandation ?', 'The figures back up his argument.', 'Les chiffres étayent son argument.'],
+  ['to rule out', 'exclure / écarter', 'rool OUT', 'We can’t rule out a delay.', 'Nous ne pouvons pas exclure un retard.', 'They ruled out the cheaper option.', 'Ils ont écarté l’option la moins chère.'],
+  ['to roll out', 'déployer / lancer', 'rohl OUT', 'The company will roll out the update next month.', 'L’entreprise déploiera la mise à jour le mois prochain.', 'The service was rolled out across the region.', 'Le service a été déployé dans toute la région.'],
+  ['to reach out', 'prendre contact', 'reech OUT', 'I’ll reach out to the supplier today.', 'Je prendrai contact avec le fournisseur aujourd’hui.', 'Feel free to reach out if you need help.', 'N’hésite pas à me contacter si tu as besoin d’aide.'],
+  ['to turn down', 'refuser / baisser', 'turn DOWN', 'He turned down the offer politely.', 'Il a décliné l’offre avec politesse.', 'They turned down our request for an extension.', 'Ils ont refusé notre demande de délai supplémentaire.'],
+  ['to put forward', 'proposer / avancer', 'put FOR-ward', 'She put forward a practical solution.', 'Elle a proposé une solution pratique.', 'Several ideas were put forward during the discussion.', 'Plusieurs idées ont été avancées pendant la discussion.'],
+  ['to keep up with', 'suivre le rythme de', 'keep UP with', 'It’s hard to keep up with changing requirements.', 'Il est difficile de suivre l’évolution des exigences.', 'Small teams struggle to keep up with demand.', 'Les petites équipes ont du mal à suivre la demande.'],
+  ['to make up for', 'compenser', 'mayk UP for', 'We worked late to make up for lost time.', 'Nous avons travaillé tard pour rattraper le temps perdu.', 'Extra practice can make up for a slow start.', 'Un entraînement supplémentaire peut compenser un départ lent.'],
+  ['to get around to', 'trouver enfin le temps de', 'get uh-ROUND too', 'I haven’t got around to replying yet.', 'Je n’ai pas encore trouvé le temps de répondre.', 'She finally got around to updating her portfolio.', 'Elle a enfin trouvé le temps de mettre son portfolio à jour.'],
+  ['to narrow down', 'réduire / restreindre le choix', 'NAIR-oh down', 'We narrowed down the list to three options.', 'Nous avons réduit la liste à trois options.', 'A short interview can narrow down the search.', 'Un bref entretien peut affiner la recherche.'],
+  ['to take over', 'prendre la relève / reprendre', 'tayk OH-ver', 'Maya will take over the project in June.', 'Maya reprendra le projet en juin.', 'A larger firm took over the local business.', 'Une plus grande entreprise a repris la société locale.'],
+  ['to point out', 'faire remarquer / souligner', 'point OUT', 'I’d like to point out one limitation.', 'J’aimerais souligner une limite.', 'The reviewer pointed out two unclear sections.', 'Le relecteur a signalé deux passages peu clairs.'],
+  ['to get across', 'faire comprendre / transmettre', 'get uh-KROSS', 'The chart gets the main message across.', 'Le graphique fait bien passer le message principal.', 'It can be difficult to get your tone across in writing.', 'Il peut être difficile de transmettre son ton à l’écrit.'],
+  ['to break down', 'décomposer / tomber en panne', 'brayk DOWN', 'Let’s break the task down into smaller steps.', 'Décomposons la tâche en étapes plus petites.', 'The figures are broken down by age group.', 'Les chiffres sont ventilés par tranche d’âge.'],
+  ['to put off', 'repousser / remettre à plus tard', 'put OFF', 'We had to put off the launch.', 'Nous avons dû reporter le lancement.', 'Don’t put off asking for feedback.', 'Ne tarde pas à demander des retours.'],
+  ['to work out', 'résoudre / se passer', 'werk OUT', 'We worked out a fair arrangement.', 'Nous avons trouvé un arrangement équitable.', 'The details still need to be worked out.', 'Les détails doivent encore être réglés.'],
+  ['to set out', 'exposer / présenter clairement', 'set OUT', 'The introduction sets out the purpose of the study.', 'L’introduction expose l’objectif de l’étude.', 'She set out her priorities at the start.', 'Elle a présenté ses priorités au début.'],
+  ['to follow through', 'aller jusqu’au bout', 'FOL-oh throo', 'Good ideas matter when you follow through.', 'Les bonnes idées comptent si on les mène jusqu’au bout.', 'The team followed through on every commitment.', 'L’équipe a tenu chacun de ses engagements.'],
+  ['to phase in', 'introduire progressivement', 'fayz IN', 'The changes will be phased in over six months.', 'Les changements seront introduits progressivement sur six mois.', 'A phased approach gives staff time to adapt.', 'Une mise en place progressive laisse au personnel le temps de s’adapter.'],
+  ['to offset', 'compenser / contrebalancer', 'off-SET', 'The savings offset the initial cost.', 'Les économies compensent le coût initial.', 'Flexible hours can offset a longer commute.', 'Des horaires flexibles peuvent compenser un trajet plus long.'],
+  ['to flag up', 'signaler / attirer l’attention sur', 'flag UP', 'The audit flagged up a security concern.', 'L’audit a signalé un problème de sécurité.', 'Please flag up any conflicting dates.', 'Signale toute date contradictoire, s’il te plaît.'],
+  ['to take into account', 'tenir compte de', 'tayk IN-too uh-KOUNT', 'The plan takes everyone’s workload into account.', 'Le plan tient compte de la charge de travail de chacun.', 'We must take the seasonal changes into account.', 'Nous devons tenir compte des variations saisonnières.'],
+  ['to address', 'traiter / répondre à', 'uh-DRESS', 'The proposal addresses the main risks.', 'La proposition traite les principaux risques.', 'We need to address the issue before it grows.', 'Nous devons traiter le problème avant qu’il ne s’aggrave.'],
+  ['to ensure', 'veiller à / garantir', 'en-SHOOR', 'Please ensure that every figure is accurate.', 'Veille à ce que chaque chiffre soit exact.', 'Clear labels ensure the form is easy to use.', 'Des libellés clairs garantissent la facilité d’utilisation du formulaire.'],
+  ['to enhance', 'améliorer / renforcer', 'en-HANS', 'The examples enhance the explanation.', 'Les exemples renforcent l’explication.', 'We added captions to enhance accessibility.', 'Nous avons ajouté des sous-titres pour améliorer l’accessibilité.'],
+  ['to enable', 'permettre / rendre possible', 'en-AY-bul', 'The new system enables remote access.', 'Le nouveau système permet un accès à distance.', 'Training enables staff to use the equipment safely.', 'La formation permet au personnel d’utiliser l’équipement en toute sécurité.'],
+  ['to emerge', 'apparaître / se dégager', 'ee-MERJ', 'A clear pattern emerged from the interviews.', 'Une tendance claire s’est dégagée des entretiens.', 'New details emerged during the review.', 'De nouveaux détails sont apparus pendant l’examen.'],
+  ['to establish', 'établir / mettre en place', 'ih-STAB-lish', 'We established a process for handling requests.', 'Nous avons établi une procédure de traitement des demandes.', 'The study establishes a link between the two factors.', 'L’étude établit un lien entre les deux facteurs.'],
+  ['to exceed', 'dépasser', 'ik-SEED', 'Costs exceeded the original estimate.', 'Les coûts ont dépassé l’estimation initiale.', 'The final result exceeded our expectations.', 'Le résultat final a dépassé nos attentes.'],
+  ['to maintain', 'maintenir / préserver', 'mayn-TAYN', 'It is important to maintain consistent standards.', 'Il est important de maintenir des normes cohérentes.', 'The team maintained a steady pace throughout.', 'L’équipe a gardé un rythme régulier tout au long du projet.'],
+  ['to obtain', 'obtenir', 'ub-TAYN', 'You need approval to obtain access.', 'Il faut une autorisation pour obtenir l’accès.', 'The researchers obtained consent from each participant.', 'Les chercheurs ont obtenu le consentement de chaque participant.'],
+  ['to require', 'exiger / nécessiter', 'ri-KWY-er', 'The role requires strong communication skills.', 'Le poste exige de bonnes compétences en communication.', 'This repair may require specialist equipment.', 'Cette réparation peut nécessiter un équipement spécialisé.'],
+  ['to retain', 'conserver / retenir', 'ri-TAYN', 'The summary retains the key details.', 'Le résumé conserve les détails essentiels.', 'The company introduced mentoring to retain experienced staff.', 'L’entreprise a instauré du mentorat pour fidéliser le personnel expérimenté.'],
+  ['to vary', 'varier / différer', 'VAIR-ee', 'The results vary from one region to another.', 'Les résultats varient d’une région à l’autre.', 'Response times may vary during busy periods.', 'Les délais de réponse peuvent varier pendant les périodes chargées.'],
+  ['to account for', 'représenter / expliquer', 'uh-KOUNT for', 'Online orders account for half of sales.', 'Les commandes en ligne représentent la moitié des ventes.', 'Several factors account for the difference.', 'Plusieurs facteurs expliquent la différence.'],
+  ['to clarify', 'clarifier / préciser', 'KLAR-uh-fy', 'Could you clarify what happens next?', 'Pourriez-vous préciser la suite ?', 'The diagram clarifies how the parts fit together.', 'Le schéma clarifie l’assemblage des pièces.'],
+  ['to contribute to', 'contribuer à', 'kun-TRIB-yoot too', 'Regular reviews contribute to better results.', 'Des bilans réguliers contribuent à de meilleurs résultats.', 'Several small changes contributed to the improvement.', 'Plusieurs petits changements ont contribué à l’amélioration.'],
+  ['to demonstrate', 'démontrer / montrer', 'DEM-un-strayt', 'The trial demonstrates that the method works.', 'L’essai démontre que la méthode fonctionne.', 'She demonstrated how to use the new dashboard.', 'Elle a montré comment utiliser le nouveau tableau de bord.'],
+  ['to identify', 'identifier', 'eye-DEN-tuh-fy', 'The team identified three possible causes.', 'L’équipe a identifié trois causes possibles.', 'This exercise helps identify gaps in your argument.', 'Cet exercice aide à repérer les lacunes de ton argumentation.'],
+  ['to interpret', 'interpréter', 'in-TER-prit', 'It is too early to interpret the figures.', 'Il est trop tôt pour interpréter les chiffres.', 'Readers may interpret the phrase in different ways.', 'Les lecteurs peuvent interpréter la phrase de différentes façons.'],
+  ['to justify', 'justifier', 'JUS-tuh-fy', 'Please justify your choice with evidence.', 'Justifie ton choix à l’aide de preuves.', 'The extra time is justified by the complexity of the task.', 'Le temps supplémentaire se justifie par la complexité de la tâche.'],
+  ['to propose', 'proposer', 'pruh-POHZ', 'I propose that we review the draft together.', 'Je propose que nous relisions le brouillon ensemble.', 'They proposed a trial period before the full launch.', 'Ils ont proposé une période d’essai avant le lancement complet.'],
+  ['to resolve', 'résoudre / régler', 'ri-ZOLV', 'We resolved the issue without delaying delivery.', 'Nous avons réglé le problème sans retarder la livraison.', 'A short call resolved the misunderstanding.', 'Un bref appel a dissipé le malentendu.'],
+]
+const b2AdditionalWords: VocabularyWord[] = b2VocabularyExtra.map(([english, french, pronunciation, example, exampleFr, context, contextFr], i) => ({
+  id: `b2-extra-${i + 1}`, english, french, pronunciation, example, exampleFr, category: 'Anglais professionnel', level: 'B2', context, contextFr,
+}))
+VOCABULARY.push(...b2AdditionalWords)
+const advancedLessonSpecs: [string, string, string, number, number][] = [
+  ['Lead a meeting', 'Faire avancer une réunion et répartir les prochaines actions.', 'Présenter un ordre du jour, relancer les échanges et conclure sur des actions concrètes.', 9, 0],
+  ['Build a strong argument', 'Défendre une idée avec des arguments et des concessions.', 'Structurer un avis, répondre aux objections et illustrer son raisonnement.', 10, 5],
+  ['Solve a complex problem', 'Analyser un problème et comparer plusieurs solutions.', 'évaluer les compromis avant de recommander une solution.', 10, 10],
+  ['Read between the lines', 'Repérer le ton, les sous-entendus et les nuances.', "Comprendre une intention qui n'est pas exprimée directement.", 9, 15],
+  ['Write a clear proposal', 'Présenter une proposition professionnelle claire.', 'Rédiger une recommandation concise et justifier ses bénéfices.', 10, 20],
+  ['Present a nuanced view', 'Exprimer une idée complexe avec précision.', 'Nuancer une affirmation et reconnaître plusieurs points de vue.', 10, 10],
+  ['Evaluate the evidence', 'Examiner des sources et mesurer leur fiabilité.', 'Distinguer les faits, les interprétations et les limites des données.', 11, 15],
+  ['Shape the discussion', 'Guider une discussion vers une conclusion utile.', 'Reformuler des points de vue et faire ressortir les enjeux essentiels.', 10, 20],
+  ['Edit for impact', 'Renforcer un texte en améliorant sa structure et son ton.', 'éliminer les ambiguités et choisir des formulations précises.', 11, 25],
+  ['Negotiate a solution', 'Concilier des intérêts différents dans une négociation.', 'Identifier les priorités et formuler un compromis acceptable.', 10, 10],
+  ['Debate with precision', 'Débattre avec rigueur et répondre aux contre-arguments.', 'Qualifier une affirmation et réfuter un argument avec méthode.', 11, 20],
+  ['Master subtle meaning', 'Comprendre les nuances de sens et de registre.', "Interpréter l'ironie, l'implicite et les choix de style.", 11, 25],
+  ['Synthesize several sources', 'Résumer plusieurs sources sans perdre leurs nuances.', 'Relier les idées, signaler les désaccords et dégager une synthèse.', 12, 10],
+  ['Write with elegance', 'Produire un texte fluide, précis et convaincant.', 'Varier les structures tout en gardant une argumentation cohérente.', 12, 15],
+  ['Communicate with mastery', 'Adapter finement son discours à un public et à un contexte.', 'Faire passer une idée complexe avec clarté, naturel et précision.', 12, 20],
+]
+const advancedLevels: Lesson[] = advancedLessonSpecs.map(([title, objective, subtitle, minutes, start], i) => {
+  const level = i < 5 ? 'B2' : i < 10 ? 'C1' : 'C2'
+  const levelIndex = i < 5 ? i : i < 10 ? i - 5 : i - 10
+  const words = VOCABULARY.filter((word) => word.level === level).slice(levelIndex * 10, levelIndex * 10 + 10)
+  return {
+    id: `${level.toLowerCase()}-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+    level,
+    number: levelIndex + 1,
+    title,
+    subtitle,
+    minutes,
+    objective,
+    words: words.length ? words : VOCABULARY.filter((word) => word.level === level).slice(start, start + 5),
+  }
+})
+export const ALL_LESSONS = [...LESSONS, ...EXTRA_LEVEL_LESSONS, ...advancedLevels]
 export const VOCABULARY_CATEGORIES = [
   'Toutes',
   'Salutations',

@@ -37,7 +37,7 @@ export function HomePage() {
       </div>
       <section className="level-section">
         <SectionTitle
-          eyebrow="LE BON POINT DE DÉPART"
+          eyebrow=""
           title="Trouvez votre niveau."
           description="À chaque étape, des leçons adaptées et de nouveaux repères."
         />
@@ -46,7 +46,7 @@ export function HomePage() {
             <LevelCard
               key={l.id}
               level={l}
-              progress={getLevelCompletion(l.name as 'A1' | 'A2' | 'B1')}
+              progress={getLevelCompletion(l.name as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2')}
               onClick={() => go(`/cours/${l.name.toLowerCase()}`)}
             />
           ))}
@@ -60,7 +60,7 @@ export function CoursePage() {
     const value = new URLSearchParams(window.location.search).get('level')
     const routeLevel = window.location.pathname.split('/').filter(Boolean)[1]?.toUpperCase()
     const level = routeLevel ?? value
-    return level && ['A1', 'A2', 'B1'].includes(level) ? level : 'Tout mon parcours'
+    return level && LEVELS.some((item) => item.name === level) ? level : 'Tout mon parcours'
   }
   const [filter, setFilter] = useState(readLevel)
   const selectLevel = (value: string) => {
@@ -68,7 +68,7 @@ export function CoursePage() {
     const url = value === 'Tout mon parcours' ? '/cours' : `/cours/${value.toLowerCase()}`
     window.history.replaceState({}, '', url)
   }
-  const filters = ['Tout mon parcours', 'A1', 'A2', 'B1']
+  const filters = ['Tout mon parcours', ...LEVELS.map((level) => level.name)]
   const items = ALL_LESSONS.filter((l) => filter === 'Tout mon parcours' || l.level === filter)
   return (
     <div className="page-content">
@@ -82,7 +82,7 @@ export function CoursePage() {
           <LevelCard
             key={l.id}
             level={l}
-            progress={getLevelCompletion(l.name as 'A1' | 'A2' | 'B1')}
+            progress={getLevelCompletion(l.name as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2')}
             onClick={() => selectLevel(l.name)}
           />
         ))}
@@ -122,10 +122,11 @@ function WordCard({ word }: { word: VocabularyWord }) {
         <Pill tone="muted">{word.category}</Pill>
         <SpeakButton text={word.english} audioFile={`vocabulary/${word.id}.mp3`} />
       </div>
-      <span className="vocab-number">{word.id.slice(5).padStart(2, '0')} / 100</span>
+      <span className="vocab-number">{word.level} · {word.id}</span>
       <h3>{word.english}</h3>
       <span className="pronunciation">/{word.pronunciation}/</span>
       <p className="vocab-translation">{word.french}</p>
+      {word.context && <div className="vocab-example"><div><span>IN CONTEXT</span><p>{word.context}</p><small>{word.contextFr}</small><SpeakButton text={word.context} /></div></div>}
       <div className="vocab-example">
         <div>
           <span>EXAMPLE</span>
@@ -150,6 +151,7 @@ function WordCard({ word }: { word: VocabularyWord }) {
 }
 export function VocabularyPage() {
   const [category, setCategory] = useState('Toutes')
+  const [levelFilter, setLevelFilter] = useState('Tous')
   const [query, setQuery] = useState('')
   const [flash, setFlash] = useState(false)
   const [card, setCard] = useState(0)
@@ -159,10 +161,11 @@ export function VocabularyPage() {
       VOCABULARY.filter(
         (w) =>
           (category === 'Toutes' || category === w.category) &&
+          (levelFilter === 'Tous' || levelFilter === w.level) &&
           (w.english.toLowerCase().includes(query.toLowerCase()) ||
             w.french.toLowerCase().includes(query.toLowerCase())),
       ),
-    [query, category],
+    [query, category, levelFilter],
   )
   const reviewItems = useMemo(
     () => items.filter((word) => !getProgress().knownWords.includes(word.id)),
@@ -174,7 +177,7 @@ export function VocabularyPage() {
       <PageIntro
         eyebrow="A LITTLE VOCABULARY GOES A LONG WAY"
         title="Les bons mots, au bon moment."
-        description="Des mots du quotidien, avec leur prononciation et une phrase pour les mettre en situation."
+        description="Plus de 150 expressions, collocations et mots utiles, avec leur traduction, leur prononciation, des exemples et une lecture audio. Filtrez par niveau pour réviser à votre rythme."
       />
       <div className="vocab-toolbar">
         <label className="search-box">
@@ -197,18 +200,18 @@ export function VocabularyPage() {
           Réviser les mots <RotateCcw size={15} />
         </Button>
       </div>
-      <div className="category-strip">
-        {VOCABULARY_CATEGORIES.map((c) => (
-          <button
-            className={category === c ? 'selected' : ''}
-            onClick={() => setCategory(c)}
-            key={c}
-          >
-            {c}
-          </button>
-        ))}
-      </div>
-      {flash && reviewItems.length === 0 && (
+      <div className="vocabulary-filters" aria-label="Filtres du vocabulaire">
+        <div className="category-strip level-filter-strip" aria-label="Filtrer par niveau">
+          {['Tous', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((level) => (
+            <button type="button" aria-pressed={levelFilter === level} className={levelFilter === level ? 'selected' : ''} key={level} onClick={() => { setLevelFilter(level); setCategory('Toutes'); setCard(0); setFlip(false) }}>{level}</button>
+          ))}
+        </div>
+        <div className="category-strip topic-filter-strip" aria-label="Filtrer par thème">
+          {VOCABULARY_CATEGORIES.map((c) => (
+            <button type="button" aria-pressed={category === c} className={category === c ? 'selected' : ''} onClick={() => { setCategory(c); setLevelFilter('Tous'); setCard(0); setFlip(false) }} key={c}>{c}</button>
+          ))}
+        </div>
+      </div>      {flash && reviewItems.length === 0 && (
         <div className="flashcard-section flashcard-empty">
           <p>Tous les mots de cette sélection sont déjà marqués comme connus.</p>
           <Button tone="light" onClick={() => setFlash(false)}>Fermer</Button>
@@ -249,11 +252,17 @@ export function VocabularyPage() {
           </div>
         </div>
       )}
-      <div className="vocab-grid">
-        {items.map((w) => (
-          <WordCard key={w.id} word={w} />
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <div className="vocab-empty" role="status">
+          <strong>Aucun mot trouvé avec ces filtres.</strong>
+          <p>Essayez un autre niveau ou thème, ou effacez votre recherche.</p>
+          <button type="button" onClick={() => { setLevelFilter('Tous'); setCategory('Toutes'); setQuery('') }}>Réinitialiser les filtres</button>
+        </div>
+      ) : (
+        <div className="vocab-grid">
+          {items.map((w) => <WordCard key={w.id} word={w} />)}
+        </div>
+      )}
     </div>
   )
 }

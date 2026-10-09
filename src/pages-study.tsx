@@ -352,7 +352,7 @@ export function LevelTestPage() {
       <div className="test-note">
         <Clock3 size={17} />
         <p>
-          <strong>Environ 5 minutes.</strong> Répondez Ã  votre rythme, une réponse Ã  la fois.
+          <strong>Environ 5 minutes.</strong> Répondez à votre rythme, une réponse à la fois.
         </p>
       </div>
       <QuizEngine

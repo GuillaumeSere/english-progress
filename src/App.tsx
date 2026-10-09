@@ -34,7 +34,7 @@ function view(url: string): Page {
   const pathname = url.split('?')[0]
   const p = pathname.split('/').filter(Boolean)
   if (!p.length) return 'home'
-  if (p[0] === 'cours' && p.length === 2 && ['a1', 'a2', 'b1'].includes(p[1])) return 'cours'
+  if (p[0] === 'cours' && p.length === 2 && ['a1', 'a2', 'b1', 'b2', 'c1', 'c2'].includes(p[1])) return 'cours'
   if (p[0] === 'cours' && p.length === 2) return 'not-found'
   if (p[0] === 'cours' && p.length >= 3) return 'lesson'
   if (p[0] === 'cours') return 'cours'

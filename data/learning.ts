@@ -1,4 +1,4 @@
-﻿import type { Dialogue, GrammarTopic, Question } from './core'
+import type { Dialogue, GrammarTopic, Question } from './core'
 export const GRAMMAR: GrammarTopic[] = [
   {
     id: 'present-simple',
@@ -156,10 +156,10 @@ export const GRAMMAR: GrammarTopic[] = [
   },
   {
     id: 'questions',
-    name: 'Questions with do',
+    name: 'Questions',
     level: 'A1',
     explanation:
-      'Au présent simple, on place do ou does devant la personne pour poser une question.',
+      'Une question fermée au présent simple commence par do ou does, placé avant le sujet. Utilise do avec I, you, we, they et does avec he, she, it. Le verbe reste à sa base après l’auxiliaire : Does she work? Les mots interrogatifs (what, where, when, why, how) se placent avant do/does. Avec be ou un modal, inverse directement le sujet et le verbe : Are you ready? Can you help?',
     examples: ['Do you speak English?', 'Parles-tu anglais ?'],
     positive: 'You speak English.',
     negative: 'You don’t speak English.',
@@ -175,7 +175,7 @@ export const GRAMMAR: GrammarTopic[] = [
     id: 'negation',
     name: 'Negation',
     level: 'A1',
-    explanation: 'Au présent simple, on forme la négation avec don’t ou doesn’t + base verbale.',
+    explanation: 'Au présent simple, utilise don’t avec I, you, we, they et doesn’t avec he, she, it, puis la base verbale. Does porte déjà la marque de la troisième personne : She doesn’t work (et non doesn’t works). Avec be ou un modal, ajoute not après le verbe : I am not tired, They cannot come. Au passé, utilise didn’t + base verbale.',
     examples: ['I don’t drink coffee.', 'Je ne bois pas de café.'],
     positive: 'She works here.',
     negative: 'She doesn’t work here.',
@@ -192,7 +192,7 @@ export const GRAMMAR: GrammarTopic[] = [
     name: 'Comparatives',
     level: 'A2',
     explanation:
-      'Un comparatif compare deux choses. Beaucoup d’adjectifs courts prennent -er + than ; les adjectifs longs utilisent more.',
+      'Pour comparer deux éléments, les adjectifs courts prennent généralement -er + than (small → smaller than). Les adjectifs plus longs utilisent more + adjectif + than (more comfortable than). Après consonne-voyelle-consonne, on double souvent la consonne finale (big → bigger). Les formes irrégulières courantes sont good → better et bad → worse. Pour exprimer l’égalité, utilise as + adjectif + as.',
     examples: ['The train is faster than the bus.', 'Le train est plus rapide que le bus.'],
     positive: 'This bag is lighter.',
     negative: 'It isn’t cheaper.',
@@ -206,10 +206,10 @@ export const GRAMMAR: GrammarTopic[] = [
   },
   {
     id: 'conditionals',
-    name: 'First conditional',
+    name: 'Conditionals',
     level: 'B1',
     explanation:
-      'Le premier conditionnel parle d’une situation future possible : if + présent, puis will + base verbale.',
+      'Le premier conditionnel décrit une condition future réaliste et son résultat probable : if + présent simple, puis will + base verbale. Évite will dans la proposition introduite par if : If it rains, we will stay home. Les propositions peuvent être inversées ; place une virgule après la proposition en if quand elle vient en premier. Can, may ou should peuvent remplacer will pour exprimer une possibilité ou un conseil.',
     examples: ['If I have time, I will call you.', 'Si j’ai le temps, je t’appellerai.'],
     positive: 'If she comes, we will eat.',
     negative: 'If it doesn’t rain, we will walk.',

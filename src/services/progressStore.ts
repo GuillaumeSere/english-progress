@@ -1,4 +1,4 @@
-﻿import { ALL_LESSONS, type Progress } from '../../data/core'
+import { ALL_LESSONS, type Progress } from '../../data/core'
 const KEY = 'english-progress:v1'
 const empty = (): Progress => ({
   currentLevel: 'A1',
@@ -86,8 +86,8 @@ export function clearProgress() {
     localStorage.removeItem(KEY)
   } catch {}
 }
-export type ProgressLevel = 'A1' | 'A2' | 'B1'
-export type EstimatedLevel = ProgressLevel | 'B2' | 'C1'
+export type ProgressLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
+export type EstimatedLevel = ProgressLevel
 export function levelFromScore(score: number, total = 20): EstimatedLevel {
   const scaledScore = Math.round((score / total) * 20)
   if (scaledScore <= 5) return 'A1'
@@ -97,7 +97,7 @@ export function levelFromScore(score: number, total = 20): EstimatedLevel {
   return 'C1'
 }
 export function availableLevel(level: EstimatedLevel): ProgressLevel {
-  return level === 'B2' || level === 'C1' ? 'B1' : level
+  return level
 }
 export function getLevelProgress(p = getProgress()) {
   return getLevelCompletion('A1', p)
